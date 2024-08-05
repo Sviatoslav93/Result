@@ -36,11 +36,11 @@ public class Result<T> : IResult
     public static Result<T> Success(T value) => new Result<T>(value);
     public static Result<T> Failed(Error error) => new Result<T>(error);
 
-    public TRes Match<TRes>(Func<T, TRes> success, Func<Failure, TRes> failure) => Failure
+    public TProjection Match<TProjection>(Func<T, TProjection> success, Func<Failure, TProjection> failure) => Failure
             ? failure(Failure)
             : success(Value);
 
-    public async Task<TRes> MatchAsync<TRes>(Func<T, Task<TRes>> success, Func<Failure, TRes> failure) => Failure
+    public async Task<TProjection> MatchAsync<TProjection>(Func<T, Task<TProjection>> success, Func<Failure, TProjection> failure) => Failure
             ? failure(Failure)
             : await success(Value);
 
