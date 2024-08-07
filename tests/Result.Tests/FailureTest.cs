@@ -12,7 +12,7 @@ public class FailureTest
         var failure = new Failure
         {
             new("1000", "failure"),
-            new("1001", "not found exception", ErrorType.NotFound)
+            new("1001", "not found exception", ErrorType.NotFound),
         };
 
         failure.Should().HaveCount(2);
@@ -37,7 +37,7 @@ public class FailureTest
             new List<Error>
             {
                 new("1000", "Unexpected error"),
-                new("1001", "Not found exception")
+                new("1001", "Not found exception"),
             });
 
         failure.Should().HaveCount(2);
