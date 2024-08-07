@@ -2,65 +2,64 @@ using FluentAssertions;
 using Result.Errors;
 using Xunit;
 
-namespace Result.Tests
+namespace Result.Tests;
+
+public class FailureTest
 {
-    public class FailureTest
+    [Fact]
+    public void Should_AddErrorToFailure()
     {
-        [Fact]
-        public void Should_CreateFailureWithOneError()
+        var failure = new Failure
         {
-            var failure = new Failure(new Error("1000", "Unexpected error"));
+            new("1000", "failure"),
+            new("1001", "not found exception", ErrorType.NotFound)
+        };
 
-            failure.Should().HaveCount(1);
-            failure.HasAnyErrors.Should().BeTrue();
-        }
+        failure.Should().HaveCount(2);
+        failure.HasAnyErrors.Should().BeTrue();
+    }
 
-        [Fact]
-        public void Should_CreateFailureWithListOfErrors()
-        {
-            var failure = new Failure(
-                new List<Error>
-                {
-                    new Error("1000", "Unexpected error"),
-                    new Error("1001", "Not found exception"),
-                });
+    [Fact]
+    public void Should_CreateFailureWithErrors()
+    {
+        var failure = new Failure(
+            new Error("1000", "failure"),
+            new Error("1001", "not found exception", ErrorType.NotFound));
 
-            failure.Should().HaveCount(2);
-            failure.HasAnyErrors.Should().BeTrue();
-        }
+        failure.Should().HaveCount(2);
+        failure.HasAnyErrors.Should().BeTrue();
+    }
 
-        [Fact]
-        public void Should_CreateFailureWithErrors()
-        {
-            var failure = new Failure(
-                new Error("1000", "failure", ErrorType.Failure),
-                new Error("1001", "not found exception", ErrorType.NotFound));
-
-            failure.Should().HaveCount(2);
-            failure.HasAnyErrors.Should().BeTrue();
-        }
-
-        [Fact]
-        public void Should_AddErrorToFailure()
-        {
-            var failure = new Failure()
+    [Fact]
+    public void Should_CreateFailureWithListOfErrors()
+    {
+        var failure = new Failure(
+            new List<Error>
             {
-                new Error("1000", "failure", ErrorType.Failure),
-                new Error("1001", "not found exception", ErrorType.NotFound),
-            };
+                new("1000", "Unexpected error"),
+                new("1001", "Not found exception")
+            });
 
-            failure.Should().HaveCount(2);
-            failure.HasAnyErrors.Should().BeTrue();
-        }
+        failure.Should().HaveCount(2);
+        failure.HasAnyErrors.Should().BeTrue();
+    }
 
-        [Fact]
-        public void Should_ImplicitlyConvertFailureToBool()
-        {
-            var failure = new Failure(new Error("1000", "failure", ErrorType.Failure));
+    [Fact]
+    public void Should_CreateFailureWithOneError()
+    {
+        var failure = new Failure(new Error("1000", "Unexpected error"));
 
-            bool hasAnyErrors = failure;
+        failure.Should().HaveCount(1);
+        failure.HasAnyErrors.Should().BeTrue();
+    }
 
-            hasAnyErrors.Should().BeTrue();
-        }
+    [Fact]
+    public void Should_ImplicitlyConvertFailureToBool()
+    {
+        var failure = new Failure(new Error("1000", "failure"));
+
+        bool hasAnyErrors = failure;
+
+        hasAnyErrors.Should().BeTrue();
     }
 }

@@ -1,23 +1,32 @@
 using System.Collections;
 using Result.Errors;
 
+namespace Result;
+
 public readonly record struct Failure : IEnumerable<Error>
 {
     private readonly List<Error> _errors = [];
 
+    public Failure()
+    {
+    }
+
     public Failure(IEnumerable<Error> errors)
     {
-        _errors = new List<Error>(errors);
+        _errors = [..errors];
     }
 
     public Failure(params Error[] errors)
+        : this(errors.AsEnumerable())
     {
-        _errors = new List<Error>(errors);
     }
 
     public bool HasAnyErrors => _errors.Count != 0;
 
-    public static implicit operator bool(Failure failure) => failure.HasAnyErrors;
+    public static implicit operator bool(Failure failure)
+    {
+        return failure.HasAnyErrors;
+    }
 
     public void Add(Error error)
     {

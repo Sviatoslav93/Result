@@ -7,27 +7,30 @@ namespace Result.Tests;
 public class CreateResultTests
 {
     [Fact]
-    public void Should_CreateSuccessResult()
-    {
-        var result = Result<int>.Success(1);
-
-        result.IsFailed.Should().BeFalse();
-    }
-
-    [Fact]
     public void Should_CreateFailedResult()
     {
-        var result = Result<int>.Failed(Error.Failure("code", "description"));
+        var result = new Result<int>(Error.Failure("code", "description"));
 
         result.IsFailed.Should().BeTrue();
     }
 
     [Fact]
-    public void Should_ImplicitConvertValueToResult()
+    public void Should_CreateSuccessResult()
     {
-        Result<int> result = 1;
+        var result = new Result<int>(1);
 
         result.IsFailed.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Should_CreateSuccessResultWithSeveralErrors()
+    {
+        var result = new Result<int>(
+            Error.Failure("code", "description"),
+            Error.Failure("code", "description"));
+
+        result.IsFailed.Should().BeTrue();
+        result.Failure.Should().HaveCount(2);
     }
 
     [Fact]
@@ -39,15 +42,10 @@ public class CreateResultTests
     }
 
     [Fact]
-    public void Should_ImplicitConvertFailureToResult()
+    public void Should_ImplicitConvertValueToResult()
     {
-        var failure = new Failure
-        {
-            Error.Failure("code", "description"),
-        };
+        Result<int> result = 1;
 
-        Result<int> result = failure;
-
-        result.IsFailed.Should().BeTrue();
+        result.IsFailed.Should().BeFalse();
     }
 }

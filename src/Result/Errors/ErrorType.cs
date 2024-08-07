@@ -1,4 +1,5 @@
 namespace Result.Errors;
+
 public enum ErrorType
 {
     Failure = 0,
