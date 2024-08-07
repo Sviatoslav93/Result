@@ -3,11 +3,16 @@ using Result.Errors;
 
 public readonly record struct Failure : IEnumerable<Error>
 {
-    private readonly List<Error> _errors;
+    private readonly List<Error> _errors = [];
 
-    public Failure()
+    public Failure(IEnumerable<Error> errors)
     {
-        _errors = new List<Error>();
+        _errors = new List<Error>(errors);
+    }
+
+    public Failure(params Error[] errors)
+    {
+        _errors = new List<Error>(errors);
     }
 
     public bool HasAnyErrors => _errors.Count != 0;
