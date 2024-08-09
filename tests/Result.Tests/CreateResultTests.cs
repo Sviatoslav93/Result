@@ -34,6 +34,24 @@ public class CreateResultTests
     }
 
     [Fact]
+    public void Should_DeconstructSuccessResult()
+    {
+        var (value, failure) = new Result<int>(1);
+
+        value.Should().Be(1);
+        failure.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void Should_DeconstructFailedResult()
+    {
+        var (value, failure) = new Result<int>(Error.Failure("code", "description"));
+
+        value.Should().Be(default);
+        failure.Should().HaveCount(1);
+    }
+
+    [Fact]
     public void Should_ImplicitConvertErrorToResult()
     {
         Result<int> result = Error.Failure("code", "description");

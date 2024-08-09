@@ -24,6 +24,7 @@ public class Result<T> : IResult
 
     public Failure Failure { get; } = [];
     public bool IsFailed => Failure;
+    public bool IsSuccessful => !Failure;
     public T Value => _value ?? throw new InvalidOperationException("result is unsuccessful and do not contains any value");
 
     public static implicit operator Result<T>(T value)
@@ -36,9 +37,14 @@ public class Result<T> : IResult
         return new Result<T>(error);
     }
 
+    public static implicit operator Result<T>(Failure failure)
+    {
+        return new Result<T>(failure);
+    }
+
     public void Deconstruct(out T? value, out Failure failure)
     {
-        value = Value;
+        value = _value;
         failure = Failure;
     }
 
