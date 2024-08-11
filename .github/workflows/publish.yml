@@ -1,11 +1,10 @@
-﻿name: publish Result to nuget
+﻿name: publishNuget
 on:
-    workflow_dispatch:
-    push:
-        branches:
-            - main
-        paths:
-            - "src/**"
+    workflow_run:
+        workflows: ["build"]
+        types:
+            - completed
+
 jobs:
     publish:
         name: build, pack & publish
