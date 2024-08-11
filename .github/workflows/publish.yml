@@ -1,4 +1,4 @@
-﻿name: publish Result.Abstraction
+﻿name: publish Result to nuget
 on:
     workflow_dispatch:
     push:
@@ -19,7 +19,7 @@ jobs:
 
             # Publish abstractions
             - name: Package
-              run: dotnet pack -c Release src/Result.Abstraction/Result.Abstraction.csproj -o .\artifacts
+              run: dotnet pack -c Release src/Result.Abstractions/Result.Abstractions.csproj -o .\artifacts
             - name: Package
               run: dotnet pack -c Release src/Result/Result.csproj -o .\artifacts
             - name: Publish
