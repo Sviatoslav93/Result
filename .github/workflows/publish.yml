@@ -1,0 +1,26 @@
+﻿name: publish Result.Abstraction
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths:
+            - "src/**"
+jobs:
+    publish:
+        name: build, pack & publish
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup dotnet
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: 8.0.x
+
+            # Publish abstractions
+            - name: Package
+              run: dotnet pack -c Release src/Result.Abstraction/Result.Abstraction.csproj -o .\artifacts
+            - name: Package
+              run: dotnet pack -c Release src/Result/Result.csproj -o .\artifacts
+            - name: Publish
+              run: dotnet nuget push .\artifacts\*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
