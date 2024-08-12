@@ -1,4 +1,5 @@
 # Result
+
 The Result is an alternative to exception-based error handling.
 It avoids throwing exceptions and instead returns a special result object.
 This object indicates success or failure and can hold additional error information.

@@ -3,7 +3,7 @@ using Result.Errors;
 
 namespace Result;
 
-public class Result<T> : IResult
+public readonly struct Result<T> : IResult<T>
 {
     private readonly T? _value;
 
@@ -23,9 +23,11 @@ public class Result<T> : IResult
     }
 
     public Failure Failure { get; } = [];
-    public bool IsFailed => Failure;
-    public bool IsSuccessful => !Failure;
-    public T Value => _value ?? throw new InvalidOperationException("result is unsuccessful and do not contains any value");
+    public bool IsSuccess => !Failure;
+
+    public T Value => IsSuccess
+        ? _value!
+        : throw new InvalidOperationException("Result is not successful and value can not be accessed.");
 
     public static implicit operator Result<T>(T value)
     {
@@ -50,15 +52,15 @@ public class Result<T> : IResult
 
     public TProjection Match<TProjection>(Func<T, TProjection> success, Func<Failure, TProjection> failure)
     {
-        return Failure
-            ? failure(Failure)
-            : success(Value);
+        return IsSuccess
+            ? success(Value)
+            : failure(Failure);
     }
 
     public async Task<TProjection> MatchAsync<TProjection>(Func<T, Task<TProjection>> success, Func<Failure, TProjection> failure)
     {
-        return Failure
-            ? failure(Failure)
-            : await success(Value);
+        return IsSuccess
+            ? await success(Value)
+            : failure(Failure);
     }
 }
