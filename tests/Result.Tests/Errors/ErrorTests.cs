@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Result.Tests.Errors;
 
-public class ErrorTests
+public partial class ErrorTests
 {
     [Fact]
     public void Should_CreateConflictError()

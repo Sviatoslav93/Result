@@ -57,11 +57,24 @@ public partial class ResultTests
     }
 
     [Fact]
-    public void Should_CreateSuccessResultWithSeveralErrors()
+    public void Should_CreateFailedResultWithSeveralErrors()
     {
         var result = new Result<int>(
             Error.Failure("code", "description"),
             Error.Failure("code", "description"));
+
+        result.IsSuccess.Should().BeFalse();
+        result.Failure.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public void Should_CreateFailedResultWithErrorsList()
+    {
+        var result = new Result<int>(new List<Error>
+        {
+            Error.Failure("code", "description"),
+            Error.Failure("code", "description"),
+        });
 
         result.IsSuccess.Should().BeFalse();
         result.Failure.Should().HaveCount(2);
@@ -101,6 +114,18 @@ public partial class ResultTests
     public void Should_ImplicitConvertErrorToResult()
     {
         Result<int> result = Error.Failure("code", "description");
+
+        result.IsSuccess.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Should_ImplicitConvertFailureToResult()
+    {
+        Result<int> result = new Failure(new List<Error>
+        {
+            Error.Failure("code", "description"),
+            Error.Failure("code", "description"),
+        });
 
         result.IsSuccess.Should().BeFalse();
     }
