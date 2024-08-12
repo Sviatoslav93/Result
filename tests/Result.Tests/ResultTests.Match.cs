@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Result.Tests;
 
-public class ResultMatchTests
+public partial class ResultTests
 {
     [Fact]
     public void Should_MatchFailedResult()

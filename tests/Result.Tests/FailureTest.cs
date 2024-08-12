@@ -7,13 +7,36 @@ namespace Result.Tests;
 public class FailureTest
 {
     [Fact]
+    public void Should_CreateFailureWithEmptyErrors()
+    {
+        var failure = new Failure();
+
+        failure.Should().BeEmpty();
+        failure.HasAnyErrors.Should().BeFalse();
+    }
+
+    [Fact]
     public void Should_AddErrorToFailure()
     {
         var failure = new Failure
         {
             new("1000", "failure"),
-            new("1001", "not found exception", ErrorType.NotFound),
         };
+
+        failure.Should().HaveCount(1);
+        failure.HasAnyErrors.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Should_AddRangeOfErrorsToFailure()
+    {
+        var failure = new Failure();
+
+        failure.AddRange(new[]
+        {
+            Error.Failure("1000", "failure"),
+            Error.Failure("1001", "failure"),
+        });
 
         failure.Should().HaveCount(2);
         failure.HasAnyErrors.Should().BeTrue();
@@ -31,26 +54,12 @@ public class FailureTest
     }
 
     [Fact]
-    public void Should_CreateFailureWithListOfErrors()
+    public void Should_CreateFailureWithIEnumerableErrors()
     {
-        var failure = new Failure(
-            new List<Error>
-            {
-                new("1000", "Unexpected error"),
-                new("1001", "Not found exception"),
-            });
+        var failure = new Failure(Enumerable.Empty<Error>());
 
-        failure.Should().HaveCount(2);
-        failure.HasAnyErrors.Should().BeTrue();
-    }
-
-    [Fact]
-    public void Should_CreateFailureWithOneError()
-    {
-        var failure = new Failure(new Error("1000", "Unexpected error"));
-
-        failure.Should().HaveCount(1);
-        failure.HasAnyErrors.Should().BeTrue();
+        failure.Should().HaveCount(0);
+        failure.HasAnyErrors.Should().BeFalse();
     }
 
     [Fact]
