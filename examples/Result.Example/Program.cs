@@ -19,8 +19,8 @@ Console.WriteLine("\nExample_2:");
 var result2 = TestService.Divide(10, 0);
 var result2Str = result2 switch
 {
-    { IsSuccessful: true } => $"Operation succeeded with value: {result2.Value}",
-    { IsSuccessful: false } => $"Operation failed with errors: {string.Join(", ", result2.Failure)}",
+    { IsSuccess: true } => $"Operation succeeded with value: {result2.Value}",
+    { IsSuccess: false } => $"Operation failed with errors: {string.Join(", ", result2.Failure)}",
 };
 Console.WriteLine(result2Str);
 
