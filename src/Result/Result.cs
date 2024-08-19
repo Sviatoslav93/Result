@@ -3,21 +3,21 @@ using Result.Errors;
 
 namespace Result;
 
-public readonly struct Result<T> : IResult<T>
+public readonly struct Result<TValue> : IResult<TValue>
 {
-    private readonly T? _value;
+    private readonly TValue? _value;
 
-    public Result(T value)
+    private Result(TValue value)
     {
         _value = value;
     }
 
-    public Result(IEnumerable<Error> errors)
+    private Result(IEnumerable<Error> errors)
     {
         Failure = [..errors];
     }
 
-    public Result(params Error[] errors)
+    private Result(params Error[] errors)
     {
         Failure = [..errors];
     }
@@ -25,42 +25,48 @@ public readonly struct Result<T> : IResult<T>
     public Failure Failure { get; } = [];
     public bool IsSuccess => !Failure;
 
-    public T Value => IsSuccess
+    public TValue Value => IsSuccess
         ? _value!
         : throw new InvalidOperationException("Result is not successful and value can not be accessed.");
 
-    public static implicit operator Result<T>(T value)
+    public static implicit operator Result<TValue>(TValue value)
     {
-        return new Result<T>(value);
+        return new Result<TValue>(value);
     }
 
-    public static implicit operator Result<T>(Error error)
+    public static implicit operator Result<TValue>(Error error)
     {
-        return new Result<T>(error);
+        return new Result<TValue>(error);
     }
 
-    public static implicit operator Result<T>(Failure failure)
+    public static implicit operator Result<TValue>(Failure failure)
     {
-        return new Result<T>(failure);
+        return new Result<TValue>(failure);
     }
 
-    public void Deconstruct(out T? value, out Failure failure)
+    public static Result<TValue> Success(TValue value) => new(value);
+
+    public static Result<TValue> Failed(params Error[] errors) => new(errors);
+
+    public static Result<TValue> Failed(IEnumerable<Error> errors) => new(errors);
+
+    public void Deconstruct(out TValue? value, out Failure failure)
     {
         value = _value;
         failure = Failure;
     }
 
-    public TProjection Match<TProjection>(Func<T, TProjection> success, Func<Failure, TProjection> failure)
+    public TNext Match<TNext>(Func<TValue, TNext> onSuccess, Func<Failure, TNext> onFailure)
     {
         return IsSuccess
-            ? success(Value)
-            : failure(Failure);
+            ? onSuccess(Value)
+            : onFailure(Failure);
     }
 
-    public async Task<TProjection> MatchAsync<TProjection>(Func<T, Task<TProjection>> success, Func<Failure, TProjection> failure)
+    public async Task<TNext> MatchAsync<TNext>(Func<TValue, Task<TNext>> onSuccess, Func<Failure, TNext> onFailure)
     {
         return IsSuccess
-            ? await success(Value)
-            : failure(Failure);
+            ? await onSuccess(Value)
+            : onFailure(Failure);
     }
 }

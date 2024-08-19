@@ -9,7 +9,7 @@ public partial class ResultTests
     [Fact]
     public void Should_MatchFailedResult()
     {
-        var result = new Result<int>(Error.Failure("code", "description"));
+        var result = Result<int>.Failed(Error.Failure("code", "description"));
 
         var value = result.Match(
             value => value,
@@ -21,7 +21,7 @@ public partial class ResultTests
     [Fact]
     public async Task Should_MatchFailedResultAsync()
     {
-        var result = new Result<int>(Error.Failure("code", "description"));
+        var result = Result<int>.Failed(Error.Failure("code", "description"));
 
         var value = await result.MatchAsync(
             Task.FromResult,
@@ -33,7 +33,7 @@ public partial class ResultTests
     [Fact]
     public void Should_MatchSuccessResult()
     {
-        var result = new Result<int>(1);
+        var result = Result<int>.Success(1);
 
         var value = result.Match(
             value => value,
@@ -45,7 +45,7 @@ public partial class ResultTests
     [Fact]
     public async Task Should_MatchSuccessResultAsync()
     {
-        var result = new Result<int>(1);
+        var result = Result<int>.Success(1);
 
         var value = await result.MatchAsync(
             Task.FromResult,
