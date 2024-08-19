@@ -1,4 +1,6 @@
-﻿using Result.Example;
+﻿using System.Globalization;
+using Result.Example;
+using Result.Extensions;
 
 // Example_1
 Console.WriteLine("\nExample_1:");
@@ -62,4 +64,44 @@ var result5Str = failure5
     : $"Operation succeeded with value: {value5}";
 Console.WriteLine(result5Str);
 
+// Example_6
+Console.WriteLine("\nExample_6:");
+
+var (result6, failure6) = TestService.Divide(10, 2)
+    .Then(x => TestService.Divide(x, 2))
+    .Then(x => TestService.Divide(x, 2))
+    .Then(x => Math.Round(x, 1))
+    .Then(x => x.ToString(CultureInfo.InvariantCulture));
+
+var result6Str = failure6
+    ? $"Operation failed with errors: {string.Join(", ", failure6)}"
+    : $"Operation succeeded with value: {result6}";
+
+Console.WriteLine(result6Str);
+
+// Example_7
+Console.WriteLine("\nExample_7:");
+
+var source = new CancellationTokenSource();
+source.CancelAfter(1000 * 4);
+var token = source.Token;
+
+var res7 = await TestService.Divide(10, 2)
+    .ThenAsync(x => TestService.DivideAsync(x, 2, token))
+    .ThenAsync(x => TestService.DivideAsync(x, 2, token))
+    .ThenAsync(x => Math.Round(x, 1))
+    .ThenAsync(async x =>
+    {
+        await Task.Delay(10, token);
+        return x.ToString(CultureInfo.InvariantCulture);
+    });
+
+var result7Str = res7 switch
+{
+    { IsSuccess: true } => $"Operation succeeded with value: {res7.Value}",
+    { IsSuccess: false } => $"Operation failed with errors: {string.Join(", ", res7.Failure)}",
+};
+Console.WriteLine(result7Str);
+
+// wait for user input
 Console.ReadKey();

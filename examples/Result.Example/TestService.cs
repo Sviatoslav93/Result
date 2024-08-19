@@ -16,6 +16,18 @@ public static partial class TestService
         return a / b;
     }
 
+    public static async Task<Result<decimal>> DivideAsync(decimal a, decimal b, CancellationToken cancellationToken = default)
+    {
+        await Task.Delay(1000, cancellationToken);
+
+        if (b == 0)
+        {
+            return new Error("ErrorCode", "Division by zero");
+        }
+
+        return a / b;
+    }
+
     public static Result<UserEntity> CreateUser(CreateUserCommand command)
     {
         if (Validate().ToFailure(out var failure))
