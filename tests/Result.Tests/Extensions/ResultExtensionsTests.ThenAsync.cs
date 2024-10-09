@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Result.Errors;
 using Result.Extensions;
 using Xunit;
 
@@ -25,9 +24,9 @@ public partial class ResultExtensionsTests
         var result = await Result<int>.Success(1)
             .ThenAsync(value => Task.FromResult((value + 1).ToString()))
             .ThenAsync(x => (x + "3i").ToString()) // failed
-            .ThenAsync(x => Task.FromResult(int.TryParse(x, out var value) ? Result<int>.Success(value) : Error.Failure("code", "description")));
+            .ThenAsync(x => Task.FromResult(int.TryParse(x, out var value) ? Result<int>.Success(value) : new Error("Input string was not in a correct format.")));
 
         result.IsSuccess.Should().BeFalse();
-        result.Failure.Should().HaveCount(1).And.Contain(Error.Failure("code", "description"));
+        result.Errors.Should().HaveCount(1);
     }
 }

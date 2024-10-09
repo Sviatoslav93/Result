@@ -1,0 +1,21 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AException_002ECoreCLR_002Ecs_002Fl_003AC_0021_003FUsers_003Fsviat_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F21b441aa1c18b01c5f90fd86d3dfc0ce8281441f7bb1bcb295febde413ae82b4_003FException_002ECoreCLR_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AException_002Ecs_002Fl_003AC_0021_003FUsers_003Fsviat_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fb4f8b29071cfcf73e927671b936ba53110f1b613a1cc9bef4fc4f07dd0fbe9_003FException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\Users\sviat\.nuget\packages\sviatoslav93.result.abstractions\1.0.0\lib\net8.0\Result.Abstractions.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4c4bd71d_002D9b8f_002D409a_002D8428_002D4c07b89447c8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ErrorTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;Project Location="D:\work\MyProjects\nugets\Result\tests\Result.Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;Result.Tests&amp;gt;" /&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::B4B49246-2CDF-49A5-8D13-C527A13CB072::net8.0::Guards.Tests.GuardTests.Should_Guard_Validate_1&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::B4B49246-2CDF-49A5-8D13-C527A13CB072::net8.0::Guards.Tests.GuardTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+  &lt;/Or&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ae85835a_002D0b91_002D4fcb_002D824f_002Da59cff75b65d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Should_CreateSuccessGuard" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="D:\work\MyProjects\nugets\Result\tests\Result.Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;Result.Tests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b859e4fa_002D7364_002D49aa_002D999e_002D68151a12ab10/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

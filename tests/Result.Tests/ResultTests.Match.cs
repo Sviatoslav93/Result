@@ -1,5 +1,5 @@
 using FluentAssertions;
-using Result.Errors;
+using Result.Extensions;
 using Xunit;
 
 namespace Result.Tests;
@@ -9,7 +9,7 @@ public partial class ResultTests
     [Fact]
     public void Should_MatchFailedResult()
     {
-        var result = Result<int>.Failed(Error.Failure("code", "description"));
+        var result = Result<int>.Failed(new Error());
 
         var value = result.Match(
             value => value,
@@ -21,7 +21,7 @@ public partial class ResultTests
     [Fact]
     public async Task Should_MatchFailedResultAsync()
     {
-        var result = Result<int>.Failed(Error.Failure("code", "description"));
+        var result = Result<int>.Failed(new Error());
 
         var value = await result.MatchAsync(
             Task.FromResult,
