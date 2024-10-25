@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Result.Tests;
 
-public partial class ResultTests
+public class ResultTests
 {
     [Fact]
     public void Should_CreateFailedResult()
@@ -34,11 +34,9 @@ public partial class ResultTests
     [Fact]
     public void Should_CreateSuccessResultForReferenceType()
     {
-        var testDto = new TestUserDto
-        {
-            FullName = "John Doe",
-            Email = "test@gmail.com",
-        };
+        var testDto = new TestUserDto(
+            fullName: "John Doe",
+            email: "test@gmail.com");
         var result = Result<TestUserDto>.Success(testDto);
 
         result.Value.Should().NotBeNull();
@@ -69,8 +67,8 @@ public partial class ResultTests
     {
         var result = Result<int>.Failed(new List<Error>
         {
-            new Error("error one"),
-            new Error("error two"),
+            new("error one"),
+            new("error two"),
         });
 
         result.IsSuccess.Should().BeFalse();
@@ -133,6 +131,16 @@ public partial class ResultTests
 
     private class TestUserDto
     {
+        public TestUserDto()
+        {
+        }
+
+        public TestUserDto(string fullName, string email)
+        {
+            FullName = fullName;
+            Email = email;
+        }
+
         public string Email { get; set; } = null!;
         public string FullName { get; set; } = null!;
     }

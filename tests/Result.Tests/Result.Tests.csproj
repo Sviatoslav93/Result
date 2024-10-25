@@ -22,7 +22,4 @@
     <ItemGroup>
         <ProjectReference Include="..\..\src\Result\Result.csproj"/>
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Errors\" />
-    </ItemGroup>
 </Project>
