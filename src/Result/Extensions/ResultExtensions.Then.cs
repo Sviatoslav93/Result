@@ -6,13 +6,13 @@ public static partial class ResultExtensions
     {
         return result.IsSuccess
             ? onSuccess(result.Value)
-            : result.Failure;
+            : result.Errors;
     }
 
     public static Result<TNextValue> Then<TValue, TNextValue>(this Result<TValue> result, Func<TValue, Result<TNextValue>> onSuccess)
     {
         return result.IsSuccess
             ? onSuccess(result.Value)
-            : result.Failure;
+            : result.Errors;
     }
 }

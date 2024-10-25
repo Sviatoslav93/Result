@@ -1,15 +1,14 @@
 using FluentAssertions;
-using Result.Errors;
 using Xunit;
 
 namespace Result.Tests;
 
-public partial class ResultTests
+public class ResultTests
 {
     [Fact]
     public void Should_CreateFailedResult()
     {
-        var result = Result<int>.Failed(Error.Failure("code", "description"));
+        var result = Result<int>.Failed(new Error());
 
         result.IsSuccess.Should().BeFalse();
     }
@@ -35,11 +34,9 @@ public partial class ResultTests
     [Fact]
     public void Should_CreateSuccessResultForReferenceType()
     {
-        var testDto = new TestUserDto
-        {
-            FullName = "John Doe",
-            Email = "test@gmail.com",
-        };
+        var testDto = new TestUserDto(
+            fullName: "John Doe",
+            email: "test@gmail.com");
         var result = Result<TestUserDto>.Success(testDto);
 
         result.Value.Should().NotBeNull();
@@ -59,12 +56,10 @@ public partial class ResultTests
     [Fact]
     public void Should_CreateFailedResultWithSeveralErrors()
     {
-        var result = Result<int>.Failed(
-            Error.Failure("code", "description"),
-            Error.Failure("code", "description"));
+        var result = Result<int>.Failed(new Error("error one"), new Error("error two"));
 
         result.IsSuccess.Should().BeFalse();
-        result.Failure.Should().HaveCount(2);
+        result.Errors.Should().HaveCount(2);
     }
 
     [Fact]
@@ -72,34 +67,34 @@ public partial class ResultTests
     {
         var result = Result<int>.Failed(new List<Error>
         {
-            Error.Failure("code", "description"),
-            Error.Failure("code", "description"),
+            new("error one"),
+            new("error two"),
         });
 
         result.IsSuccess.Should().BeFalse();
-        result.Failure.Should().HaveCount(2);
+        result.Errors.Should().HaveCount(2);
     }
 
     [Fact]
     public void Should_DeconstructFailedResult()
     {
-        var (value, failure) = Result<int>.Failed(Error.Failure("code", "description"));
+        var (value, errors) = Result<int>.Failed(new Error());
 
         value.Should().Be(default);
-        failure.Should().HaveCount(1);
+        errors.Should().HaveCount(1);
     }
 
     [Fact]
     public void Should_DeconstructSuccessResult()
     {
-        var (value, failure) = Result<int>.Success(1);
+        var (value, errors) = Result<int>.Success(1);
 
         value.Should().Be(1);
-        failure.Should().BeEmpty();
+        errors.Should().BeEmpty();
 
-        var (value2, failure2) = Result<int>.Failed(Error.Failure("code", "description"));
+        var (value2, errors2) = Result<int>.Failed(new Error());
         value2.Should().Be(default);
-        failure2.Should().HaveCount(1);
+        errors2.Should().HaveCount(1);
     }
 
     [Fact]
@@ -113,19 +108,15 @@ public partial class ResultTests
     [Fact]
     public void Should_ImplicitConvertErrorToResult()
     {
-        Result<int> result = Error.Failure("code", "description");
+        Result<int> result = new Error("error");
 
         result.IsSuccess.Should().BeFalse();
     }
 
     [Fact]
-    public void Should_ImplicitConvertFailureToResult()
+    public void Should_ImplicitConvertArrayOfErrorToResult()
     {
-        Result<int> result = new Failure(new List<Error>
-        {
-            Error.Failure("code", "description"),
-            Error.Failure("code", "description"),
-        });
+        Result<int> result = new[] { new Error(), new Error(), new Error() };
 
         result.IsSuccess.Should().BeFalse();
     }
@@ -138,18 +129,18 @@ public partial class ResultTests
         result.IsSuccess.Should().BeTrue();
     }
 
-    [Fact]
-    public void Should_ThrowInvalidOperationException_When_TryToGetValueFromFailedResult()
-    {
-        var result = Result<TestUserDto?>.Failed(Error.Failure("code", "description"));
-
-        FluentActions.Invoking(() => result.Value)
-            .Should()
-            .Throw<InvalidOperationException>();
-    }
-
     private class TestUserDto
     {
+        public TestUserDto()
+        {
+        }
+
+        public TestUserDto(string fullName, string email)
+        {
+            FullName = fullName;
+            Email = email;
+        }
+
         public string Email { get; set; } = null!;
         public string FullName { get; set; } = null!;
     }

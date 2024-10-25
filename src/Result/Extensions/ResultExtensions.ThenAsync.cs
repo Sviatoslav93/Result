@@ -6,14 +6,14 @@ public partial class ResultExtensions
     {
         return result.IsSuccess
             ? await onSuccess(result.Value).ConfigureAwait(false)
-            : result.Failure;
+            : result.Errors;
     }
 
     public static async Task<Result<TNextValue>> ThenAsync<TValue, TNextValue>(this Result<TValue> result, Func<TValue, Task<Result<TNextValue>>> onSuccess)
     {
         return result.IsSuccess
             ? await onSuccess(result.Value).ConfigureAwait(false)
-            : result.Failure;
+            : result.Errors;
     }
 
     public static async Task<Result<TNextValue>> ThenAsync<TValue, TNextValue>(this Task<Result<TValue>> task, Func<TValue, TNextValue> onSuccess)
