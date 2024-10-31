@@ -1,4 +1,6 @@
-﻿namespace Result;
+using Result.Extensions;
+
+namespace Result;
 
 /// <summary>
 /// Represents a type that has no value.
@@ -7,6 +9,7 @@ public readonly struct Nothing : IEquatable<Nothing>, IComparable<Nothing>, ICom
 {
     private static readonly Nothing InitialValue = default;
     public static ref readonly Nothing Value => ref InitialValue;
+    public static Result<Nothing> Result => InitialValue.AsResult();
 
     public static Task<Nothing> Task { get; } = System.Threading.Tasks.Task.FromResult(InitialValue);
 

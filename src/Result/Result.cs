@@ -18,17 +18,18 @@ public readonly struct Result<TValue> : IResult<TValue>
 
     private Result(IEnumerable<Error> errors)
     {
-        Errors = [..errors];
+        Errors = [.. errors];
         _state = ResultState.Faulted;
     }
 
     private Result(params Error[] errors)
     {
-        Errors = [..errors];
+        Errors = [.. errors];
         _state = ResultState.Faulted;
     }
 
     public Error[] Errors { get; } = [];
+
     public bool IsSuccess => _state == ResultState.Success;
 
     public TValue Value => IsSuccess
