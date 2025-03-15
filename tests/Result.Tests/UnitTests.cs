@@ -1,15 +1,15 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Xunit;
 
 namespace Result.Tests;
 
-public class NothingTests
+public class UnitTests
 {
     [Fact]
     public void TwoNothingsValuesShouldBeEqual()
     {
-        var first = Nothing.Value;
-        var second = Nothing.Value;
+        var first = Unit.Value;
+        var second = Unit.Value;
 
         (first == second).Should().BeTrue();
         (first != second).Should().BeFalse();
@@ -21,7 +21,7 @@ public class NothingTests
     [Fact]
     public void ShouldBeImplementedIComparable()
     {
-        var nothing = Nothing.Value;
+        var nothing = Unit.Value;
         var toComparable = (IComparable)nothing;
         toComparable.CompareTo(new object()).Should().Be(0);
     }
@@ -29,15 +29,15 @@ public class NothingTests
     [Fact]
     public async Task ShouldReturnTaskNothing()
     {
-        var task = Nothing.Task;
+        var task = Unit.Task;
         var nothing = await task;
-        nothing.Should().Be(Nothing.Value);
+        nothing.Should().Be(Unit.Value);
     }
 
     [Fact]
     public void ShouldBeOverridenToString()
     {
-        var nothing = Nothing.Value;
+        var nothing = Unit.Value;
         nothing.ToString().Should().Be("()");
     }
 }
