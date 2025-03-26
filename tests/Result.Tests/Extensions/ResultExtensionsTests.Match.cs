@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Result.Abstractions;
 using Result.Extensions;
 using Xunit;
 
@@ -9,7 +10,7 @@ public partial class ResultExtensionsTests
     [Fact]
     public void Should_MatchFailedResult()
     {
-        var result = Result<int>.Failed(new Error());
+        var result = Result<int>.Failed(new Error("test"));
 
         var value = result.Match(
             x => x,

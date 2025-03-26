@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Result.Abstractions;
 using Xunit;
 
 namespace Result.Tests;
@@ -8,7 +9,7 @@ public class ResultTests
     [Fact]
     public void Should_CreateFailedResult()
     {
-        var result = Result<int>.Failed(new Error());
+        var result = Result<int>.Failed(new Error("test"));
 
         result.IsSuccess.Should().BeFalse();
     }
@@ -25,7 +26,7 @@ public class ResultTests
     [Fact]
     public void Should_CreateSuccessResultForNullableValueType()
     {
-        var result = Result<int?>.Success(default);
+        var result = Result<int?>.Success(null);
 
         result.Value.Should().BeNull();
         result.IsSuccess.Should().BeTrue();
@@ -78,9 +79,9 @@ public class ResultTests
     [Fact]
     public void Should_DeconstructFailedResult()
     {
-        var (value, errors) = Result<int>.Failed(new Error());
+        var (value, errors) = Result<int>.Failed(new Error("test"));
 
-        value.Should().Be(default);
+        value.Should().Be(0);
         errors.Should().HaveCount(1);
     }
 
@@ -92,8 +93,8 @@ public class ResultTests
         value.Should().Be(1);
         errors.Should().BeEmpty();
 
-        var (value2, errors2) = Result<int>.Failed(new Error());
-        value2.Should().Be(default);
+        var (value2, errors2) = Result<int>.Failed(new Error("test"));
+        value2.Should().Be(0);
         errors2.Should().HaveCount(1);
     }
 
@@ -116,7 +117,7 @@ public class ResultTests
     [Fact]
     public void Should_ImplicitConvertArrayOfErrorToResult()
     {
-        Result<int> result = new[] { new Error(), new Error(), new Error() };
+        Result<int> result = new[] { new Error("err1"), new Error("err2"), new Error("err3") };
 
         result.IsSuccess.Should().BeFalse();
     }

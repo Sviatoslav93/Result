@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Result.Abstractions;
 using Result.Extensions;
 using Xunit;
 
@@ -30,7 +31,7 @@ public partial class ResultExtensionsTests
     [Fact]
     public async Task Should_MatchFailedAsync_From_Result()
     {
-        var result = Result<string>.Failed(new Error());
+        var result = Result<string>.Failed(new Error("test"));
 
         (await result.MatchAsync(
                 onSuccess: x => Task.FromResult(int.Parse(x)),
@@ -77,7 +78,7 @@ public partial class ResultExtensionsTests
     [Fact]
     public async Task Should_MatchFailedAsync_From_ResultTask()
     {
-        var result = Task.FromResult(Result<string>.Failed(new Error()));
+        var result = Task.FromResult(Result<string>.Failed(new Error("test")));
 
         (await result.MatchAsync(
                 onSuccess: int.Parse,
