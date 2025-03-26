@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using Result.Abstractions;
+using Xunit;
 
 namespace Result.Tests;
 
@@ -15,14 +16,6 @@ public class ErrorTests
     }
 
     [Fact]
-    public void Should_CreateErrorWithoutMessage()
-    {
-        var error = new Error();
-
-        Assert.Null(error.Message);
-    }
-
-    [Fact]
     public void Should_ReturnMessageWhenToStringIsCalled()
     {
         const string message = "Error message";
@@ -31,15 +24,5 @@ public class ErrorTests
         var result = error.ToString();
 
         Assert.Equal(message, result);
-    }
-
-    [Fact]
-    public void Should_ReturnEmptyStringWhenToStringIsCalledAndMessageIsNull()
-    {
-        var error = new Error();
-
-        var result = error.ToString();
-
-        Assert.Equal(string.Empty, result);
     }
 }

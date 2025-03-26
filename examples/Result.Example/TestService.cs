@@ -1,3 +1,6 @@
+using System.Collections;
+using Result.Abstractions;
+
 namespace Result.Example;
 
 public static partial class TestService
